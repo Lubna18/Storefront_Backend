@@ -7,7 +7,7 @@ Project 2
 Lubna Helaly
 
 ## Endpoints
-refer to ENDPOINTS.md for further details
+refer to REQUIREMENTS.md for further details
 
 ## Install project
 > yarn
