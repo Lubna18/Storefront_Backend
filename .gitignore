@@ -1,5 +1,5 @@
-
 .DS_Store
 CODEOWNERS
 node_modules
 dist
+.env

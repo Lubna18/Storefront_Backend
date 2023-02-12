@@ -1,6 +1,6 @@
 // @ts-ignore
 import Client from '../database'
-import User, { userDTO } from '../interfaces/user'
+import User, { user, userDTO } from '../interfaces/user'
 import UserDto from '../interfaces/user'
 import bcrypt from 'bcrypt';
 
@@ -78,24 +78,24 @@ export class userStore {
       }
   }
 
-  async authenticate(username: string, password: string): Promise<User | null> {
+  async authenticate(firstName: string , lastName: string, password: string): Promise<User | null> {
      // @ts-ignore
     const conn = await Client.connect()
-    const sql = 'SELECT password_digest FROM users WHERE username=($1)'
+    const sql = 'SELECT * FROM shop_user WHERE first_name=($1) and last_name=($2)'
 
-    const result = await conn.query(sql, [username])
+    const user = await conn.query(sql, [firstName, lastName])
 
     const pepper = process.env.BCRYPT_PASSWORD as string
     console.log(password+pepper)
 
-    if(result.rows.length) {
+    if(user.rows.length) {
 
-      const user = result.rows[0]
+      const userF = user.rows[0]
 
-      console.log(user)
+      //console.log(userF)
 
-      if (bcrypt.compareSync(password+pepper, user.password_digest)) {
-        return user
+      if (bcrypt.compareSync(password+pepper, userF.password)) {
+        return userF
       }
     }
 

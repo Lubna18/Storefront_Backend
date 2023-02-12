@@ -10,9 +10,9 @@ const store = new userStore();
 const userRoutes = (app: express.Application) =>{
    app.get('/users', verifyAuthToken, index),
    app.get('/user/:id', verifyAuthToken, show), 
-   app.post('/user', verifyAuthToken, create), 
+   app.post('/user', create), 
    app.delete('/user/:id',deleteEntity),
-   app.post('/firstuser', firstCreate)
+   app.post('/login', login)
 }
 
 const index = async (_req: Request, res: Response) => {
@@ -38,21 +38,21 @@ const show = async (_req: Request, res:Response) => {
    }
 }
 
-const create = async (req: Request, res:Response) =>{
-    const userDto: userDTO = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      password: req.body.password
-   }
-  try {
-      const user = await store.create(userDto)
-      res.json(user)
-  } catch(err) {
-      res.status(400)
-      res.json(err)
-      console.log(err)
-  }
-}
+// const create = async (req: Request, res:Response) =>{
+//     const userDto: userDTO = {
+//       firstName: req.body.firstName,
+//       lastName: req.body.lastName,
+//       password: req.body.password
+//    }
+//   try {
+//       const user = await store.create(userDto)
+//       res.json(user)
+//   } catch(err) {
+//       res.status(400)
+//       res.json(err)
+//       console.log(err)
+//   }
+// }
 
 const deleteEntity = async (req: Request, res: Response) =>{
    try{
@@ -67,7 +67,7 @@ const deleteEntity = async (req: Request, res: Response) =>{
 
 }
 
-const firstCreate = async (req: Request, res: Response) => {
+const create = async (req: Request, res: Response) => {
    const userDto: userDTO = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -75,6 +75,22 @@ const firstCreate = async (req: Request, res: Response) => {
    }
    try {
        const newUser = await store.create(userDto)
+       var token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
+       res.json(token)
+   } catch(err) {
+       res.status(400)
+       res.json(err)
+       console.log(err)
+   }
+}
+
+const login = async (req: Request, res: Response) => {
+    const  firstName =  req.body.firstName;
+    const  lastName =  req.body.lastName;
+    const password = req.body.password;
+   
+   try {
+       const newUser = await store.authenticate(firstName, lastName,password)
        var token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
        res.json(token)
    } catch(err) {

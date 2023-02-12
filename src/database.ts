@@ -16,6 +16,7 @@ let client
 console.log(ENV)
 
 if(ENV === 'test') {
+  console.log("TEST POOL")
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_TEST_DB,
@@ -23,6 +24,7 @@ if(ENV === 'test') {
     password: POSTGRES_PASSWORD,
   })
 } else if(ENV === 'dev') {
+  console.log("DEV POOL")
   client = new Pool({
     host: POSTGRES_HOST,
     database: POSTGRES_DB,

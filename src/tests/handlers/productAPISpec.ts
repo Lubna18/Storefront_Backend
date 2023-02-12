@@ -41,7 +41,7 @@ describe('Test Product Endpoints response ', () => {
   });
 
   it('delete', async () => {
-    const response = await request.delete('/product/1')
+    const response = await request.delete('/product/1').set('Authorization', 'Bearer ' + token);
     expect(response.status).toBe(200);
     expect(response.body).toEqual(product);
   });

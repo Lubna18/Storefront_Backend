@@ -9,13 +9,13 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "First user",
+					"name": "login",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Lubna\",\n    \"lastName\": \"AbdelSalam\",\n    \"password\": \"3456\"\n}",
+							"raw": "{\n    \"firstName\": \"Lubna\",\n    \"lastName\": \"Helaly\",\n    \"password\" : \"3456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,7 +23,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:3000/firstuser",
+							"raw": "http://127.0.0.1:3000/login",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -33,14 +33,14 @@
 							],
 							"port": "3000",
 							"path": [
-								"firstuser"
+								"login"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "index - get users",
+					"name": "index",
 					"request": {
 						"auth": {
 							"type": "bearer",

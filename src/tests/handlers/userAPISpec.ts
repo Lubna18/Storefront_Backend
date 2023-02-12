@@ -21,6 +21,7 @@ describe('Test User Endpoints response ', () => {
         spyOn(userStore.prototype, 'show').and.returnValue(Promise.resolve(user)); 
         spyOn(userStore.prototype, 'create').and.returnValue(Promise.resolve(user));
         spyOn(userStore.prototype, 'delete').and.returnValue(Promise.resolve(user));
+        spyOn(userStore.prototype, 'authenticate').and.returnValues(Promise.resolve(user));
     });
 
   it('index', async () => {
@@ -36,15 +37,20 @@ describe('Test User Endpoints response ', () => {
   });
 
   it('create', async () => {
-    const response = await request.post('/user').set('Authorization', 'Bearer ' + token);
+    const response = await request.post('/user')
     expect(response.status).toBe(200);
-    expect(response.body).toEqual(user);
+    expect(response.body).toBeDefined();
   });
 
   it('delete', async () => {
     const response = await request.delete('/user/1').set('Authorization', 'Bearer ' + token);
     expect(response.status).toBe(200);
     expect(response.body).toEqual(user);
+  });
+
+  it('login', async () => {
+    const response = await request.post('/login')
+    expect(response.status).toBe(200);
   });
 
 });
