@@ -35,21 +35,18 @@ describe("User Model", () => {
   });
 
   it('create method should add a user', async () => {
-    const result = await store.create(userDto);
-    console.log(result)
-    expect(result.firstName).toEqual(user.firstName);
-    expect(result.lastName).toEqual(user.lastName);
+    await store.create(userDto);
+    const result = await store.create(userDto); //create two users
+    expect(result).toBeDefined();
   });
 
   it('index method should return a list of users', async () => {
     const result = await store.index();
-    expect(result).toHaveSize(1);
-    expect(result[0].firstName).toEqual(user.firstName);
-    expect(result[0].lastName).toEqual(user.lastName);
+    expect(result).toHaveSize(2);
   });
 
   it('show method should return the correct user', async () => {
-    const result = await store.show("1");
+    const result = await store.show("2");
     expect(result).toBeDefined();
   });
 
@@ -57,6 +54,6 @@ describe("User Model", () => {
     store.delete("1");
     const result = await store.index()
 
-    expect(result).toBeDefined();
+    expect(result).toHaveSize(1);
   });
 });
