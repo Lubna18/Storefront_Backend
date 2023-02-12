@@ -1,20 +1,43 @@
-//import supertest from 'supertest';
-// import app from '../index';
+import supertest from 'supertest';
+import app from '../../server';
+import { product, productDTO } from '../../interfaces/product';
+import productStore from '../../models/productStore';
 
-// const request = supertest(app);
+const request = supertest(app);
+const token: string = process.env.TOKEN_TEST as string;
 
-// describe('Test endpoint response', () => {
-//   it('gets the api endpoint success', async () => {
-//     const response = await request.get(
-//       '/api/images?filename=fjord&width=300&height=200'
-//     );
-//     expect(response.status).toBe(200);
-//   });
+describe('Test Product Endpoints response ', () => {
+    
+    const product : product = {
+        id: 1,
+        name: "product1",
+        price: 2,
+        category: "A"
+    } 
 
-//   it('gets the api endpoint failure', async () => {
-//     const response = await request.get(
-//       '/api/images?filename=xyz&width=200&height=200'
-//     );
-//     expect(response.status).toBe(404);
-//   });
-// });
+    beforeAll(() => {
+        const store = new productStore();
+        spyOn(store, 'index').and.returnValue(Promise.resolve([product]));
+        spyOn(store, 'show').and.returnValue(Promise.resolve(product)); 
+        spyOn(store, 'create').and.returnValue(Promise.resolve(product));
+
+    });
+
+  it('index', async () => {
+    const response = await request.get('/products')
+    expect(response.status).toBe(200);
+    //expect(response.body).toEqual([product]);
+  });
+  
+  it('show', async () => {
+    const response = await request.get('/product/1')
+    expect(response.status).toBe(200);
+    //expect(response.body).toEqual(product);
+  });
+
+  it('create', async () => {
+    const response = await request.post('/product').set('Authorization', 'Bearer ' + token);
+    expect(response.status).toBe(200);
+    //expect(response.body).toEqual(product);
+  });
+});
