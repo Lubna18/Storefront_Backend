@@ -2,6 +2,7 @@
 import Client from '../database'
 import User, { userDTO } from '../interfaces/user'
 import UserDto from '../interfaces/user'
+import bcrypt from 'bcrypt';
 
 export class userStore {
   async index(): Promise<User[]> {
@@ -41,7 +42,15 @@ export class userStore {
     const sql = 'INSERT INTO shop_user (first_name, last_name, password) VALUES($1, $2, $3) RETURNING *'
     // @ts-ignore
     const conn = await Client.connect()
-    const result = await conn.query(sql, [b.firstName, b.lastName, b.password])
+
+    const pepper = process.env.BCRYPT_PASSWORD as string
+    
+    const hash = bcrypt.hashSync(
+      b.password + pepper, 
+      parseInt(process.env.SALT_ROUNDS as string)
+    );
+
+    const result = await conn.query(sql, [b.firstName, b.lastName, hash])
     const user = result.rows[0]
 
     conn.release()
@@ -67,6 +76,30 @@ export class userStore {
       } catch (err) {
           throw new Error(`Could not delete user ${id}. Error: ${err}`)
       }
+  }
+
+  async authenticate(username: string, password: string): Promise<User | null> {
+     // @ts-ignore
+    const conn = await Client.connect()
+    const sql = 'SELECT password_digest FROM users WHERE username=($1)'
+
+    const result = await conn.query(sql, [username])
+
+    const pepper = process.env.BCRYPT_PASSWORD as string
+    console.log(password+pepper)
+
+    if(result.rows.length) {
+
+      const user = result.rows[0]
+
+      console.log(user)
+
+      if (bcrypt.compareSync(password+pepper, user.password_digest)) {
+        return user
+      }
+    }
+
+    return null
   }
   
 }
