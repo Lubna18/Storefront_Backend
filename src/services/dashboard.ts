@@ -53,3 +53,5 @@ export class DashboardQueries {
     } 
   }
 }
+
+export default DashboardQueries

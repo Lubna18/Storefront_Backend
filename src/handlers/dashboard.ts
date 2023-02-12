@@ -26,7 +26,6 @@ const usersWithOrders = async (_req: Request, res: Response) => {
     try{
         const users = await dashboard.usersWithOrders()
         res.json(users)
-        console.log(users)
     }catch(err){
         res.status(400)
         res.json(err)
