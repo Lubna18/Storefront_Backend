@@ -10,14 +10,6 @@ describe("Product Model", () => {
     category: "A"
  }
 
- const product : product = {
-    id: 1,
-    name: "product1",
-    price: 2,
-    category: "A"
- }
- const product_arr: product[ ] = [product]
-
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -43,18 +35,21 @@ describe("Product Model", () => {
 
   it('index method should return a list of products', async () => {
     const result = await store.index();
-    expect(result).toHaveSize(1);
+    expect(result[0].name).toEqual(productDto.name)
+    expect(result).toHaveSize(2);
   });
 
   it('show method should return the correct product', async () => {
-    const result = await store.show("1");
+    const result = await store.show("2");
     expect(result).toBeDefined();
   });
 
   it('delete method should remove the product', async () => {
-    store.delete("1");
+    await store.delete("1");
     const result = await store.index()
 
     expect(result).toHaveSize(1);
   });
+
+
 });

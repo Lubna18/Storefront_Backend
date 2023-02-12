@@ -10,14 +10,6 @@ describe("User Model", () => {
     password: "password"
  }
 
- const user: user = {
-    id: 1,
-    firstName: "Lubna",
-    lastName: "Helaly",
-    password: "password"
- }
- const user_arr: user[ ] = [user]
-
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -51,9 +43,8 @@ describe("User Model", () => {
   });
 
   it('delete method should remove the user', async () => {
-    store.delete("1");
+    await store.delete("1");
     const result = await store.index()
-
     expect(result).toHaveSize(1);
   });
 });
