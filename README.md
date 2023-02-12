@@ -13,6 +13,9 @@ refer to REQUIREMENTS.md for further details
 > yarn
 
 ## Unit Tests
+use psql to add a new database called shop_test
+
+Terminal
 > yarn test
 
 ## Running

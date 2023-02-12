@@ -100,27 +100,27 @@ GET http://127.0.0.1:3000/users-with-orders
 
 ## Data Shapes
 #### Product
--  id
-- name
-- price
-- [OPTIONAL] category
+ id SERIAL PRIMARY KEY,
+name VARCHAR(200),
+price integer,
+category VARCHAR(15)
 
-#### User
-- id
-- firstName
-- lastName
-- password
+#### shop_user
+id SERIAL PRIMARY KEY,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+password VARCHAR(200)
 
 #### Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id REFERENCES user(id)
-- status of order (active or complete)
+product_id integer,
+quantity integer,
+user_id integer,
+status VARCHAR(8), [(active or complete)]
+CONSTRAINT FK_user_id FOREIGN KEY(user_id)REFERENCES shop_user(id) ON DELETE CASCADE
 
-#### order_products
-- id
-- quantity 
-- order_id REFERENCES orders(id)
-- product_id REFERENCES product(id)
+#### order_products [Orders many to many with Products]
+id SERIAL PRIMARY KEY,
+quantity integer,
+order_id bigint REFERENCES orders(id),
+product_id bigint REFERENCES product(id)
 
