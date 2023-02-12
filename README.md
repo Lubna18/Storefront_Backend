@@ -15,10 +15,15 @@ refer to REQUIREMENTS.md for further details
 ## Database setup
 Terminal
 > psql postgres
-> CREATE USER admin_user WITH PASSWORD 'password123'
+
+> CREATE USER admin_user WITH PASSWORD 'password123';
+
 > CREATE DATABASE shop;
+
 > CREATE DATABASE shop_test;
+
 > GRANT ALL PRIVILEGES ON DATABASE shop to admin_user;
+
 > GRANT ALL PRIVILES ON DATABASE shop_test to admin_user;
 
 If the docker is run as mentioned below it shall do all of the above commands except 
