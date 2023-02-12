@@ -27,6 +27,9 @@ This can be imported to Postman Desktop to have all the API calls ready to be us
 ## Unit Tests
 use psql to add a new database called shop_test
 
+change in .env file
+ENV=test
+
 Terminal
 > yarn test
 
