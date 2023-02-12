@@ -16,28 +16,34 @@ describe('Test Product Endpoints response ', () => {
     } 
 
     beforeAll(() => {
-        const store = new productStore();
-        spyOn(store, 'index').and.returnValue(Promise.resolve([product]));
-        spyOn(store, 'show').and.returnValue(Promise.resolve(product)); 
-        spyOn(store, 'create').and.returnValue(Promise.resolve(product));
-
+        spyOn(productStore.prototype, 'index').and.returnValue(Promise.resolve([product]));
+        spyOn(productStore.prototype, 'show').and.returnValue(Promise.resolve(product)); 
+        spyOn(productStore.prototype, 'create').and.returnValue(Promise.resolve(product));
+        spyOn(productStore.prototype, 'delete').and.returnValue(Promise.resolve(product));
     });
 
   it('index', async () => {
     const response = await request.get('/products')
     expect(response.status).toBe(200);
-    //expect(response.body).toEqual([product]);
+    expect(response.body).toEqual([product]);
   });
   
   it('show', async () => {
     const response = await request.get('/product/1')
     expect(response.status).toBe(200);
-    //expect(response.body).toEqual(product);
+    expect(response.body).toEqual(product);
   });
 
   it('create', async () => {
     const response = await request.post('/product').set('Authorization', 'Bearer ' + token);
     expect(response.status).toBe(200);
-    //expect(response.body).toEqual(product);
+    expect(response.body).toEqual(product);
   });
+
+  it('delete', async () => {
+    const response = await request.delete('/product/1')
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(product);
+  });
+
 });
