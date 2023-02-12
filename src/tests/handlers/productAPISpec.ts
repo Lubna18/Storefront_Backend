@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import app from '../../server';
-import { product, productDTO } from '../../interfaces/product';
+import  product  from '../../interfaces/product';
 import productStore from '../../models/productStore';
 
 const request = supertest(app);
