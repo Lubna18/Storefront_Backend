@@ -28,5 +28,10 @@ describe("Orders Model", () => {
     const result = await store.index();
     expect(result).toHaveSize(1);
   });
+  
 
+  it('Find Order By User ID', async () => {
+    const result = await store.findOrderByUser(2);
+    expect(result).toBeDefined
+  });
 });
